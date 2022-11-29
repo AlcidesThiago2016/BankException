@@ -1,6 +1,8 @@
 package devSuperior.entities;
 
-public class Account {
+import devSuperior.exceptions.BusinessException;
+
+public class Account{
 
     private Integer number;
     private String holder;
@@ -53,7 +55,17 @@ public class Account {
         balance += amount;
     }
 
-    public void withdraw(double amount){
+    public void withdraw(double amount) throws BusinessException {
+        validateWithDraw(amount);
         balance -= amount;
+    }
+
+    private void validateWithDraw(double amount) throws BusinessException {
+        if (amount > getWithdrawLimit()){
+            throw new BusinessException("Withdraw error: The amount exceeds withdraw limit");
+        }
+        if (amount > getBalance()){
+            throw new BusinessException("Withdraw error: Not enough balance");
+        }
     }
 }

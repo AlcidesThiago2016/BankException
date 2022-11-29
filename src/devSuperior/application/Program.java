@@ -1,6 +1,7 @@
 package devSuperior.application;
 
 import devSuperior.entities.Account;
+import devSuperior.exceptions.BusinessException;
 
 import javax.crypto.spec.PSource;
 import java.util.Locale;
@@ -29,9 +30,13 @@ public class Program {
         System.out.print("Enter amount for withdraw: ");
         double amount = sc.nextDouble();
 
-        acc.withdraw(amount);
-        System.out.println("New balance: " + String.format("%.2f", acc.getBalance()));
-
+        try {
+            acc.withdraw(amount);
+            System.out.println("New balance: " + String.format("%.2f", acc.getBalance()));
+        }
+        catch (BusinessException e){
+            System.out.println(e.getMessage());
+        }
         sc.close();
     }
 }
